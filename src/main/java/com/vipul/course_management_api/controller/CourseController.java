@@ -1,5 +1,6 @@
 package com.vipul.course_management_api.controller;
 
+import com.vipul.course_management_api.exception.ResourceNotFoundException;
 import com.vipul.course_management_api.model.Course;
 import com.vipul.course_management_api.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long id){
-        Optional<Course> crs = courseService.getCourseById(id);
-        return crs.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Course crs = courseService.getCourseById(id).orElseThrow(() -> new ResourceNotFoundException("Course with ID " + id + " not found"));
+        return ResponseEntity.ok(crs);
     }
 
     @DeleteMapping("/{id}")

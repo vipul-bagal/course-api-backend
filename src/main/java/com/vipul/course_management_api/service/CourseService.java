@@ -1,5 +1,6 @@
 package com.vipul.course_management_api.service;
 
+import com.vipul.course_management_api.exception.ResourceNotFoundException;
 import com.vipul.course_management_api.model.Course;
 import com.vipul.course_management_api.repository.CourseRepository;
 import jakarta.transaction.Transactional;
@@ -25,11 +26,18 @@ public class CourseService {
     }
 
     public Optional<Course> getCourseById(Long id){
-        return courseRepository.findById(id);
+        Optional<Course> course = courseRepository.findById(id);
+        if (!course.isPresent()) {
+            throw new ResourceNotFoundException("Course with ID " + id + " not found");
+        }
+        return course;
     }
 
     @Transactional
     public void deleteCourse(Long id){
+        if (!courseRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Course with ID " + id + " not found");
+        }
         courseRepository.deleteById(id);
     }
 }

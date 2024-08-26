@@ -23,10 +23,11 @@ public class CourseInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        if(courseRepository.count() > 1 )return;
         List<Course> courses = new ArrayList<>();
 
         // Adding sample courses to the list
-        courses.add(new Course("Java beginner to advanced", "c01", "Full Java course designed for beginners"));
+        //courses.add(new Course("Java beginner to advanced", "c01", "Full Java course designed for beginners"));
         courses.add(new Course("Python for Data Science", "c02", "Comprehensive Python course with data science applications"));
         courses.add(new Course("Web Development with JavaScript", "c03", "Learn to build dynamic websites using JavaScript"));
         courses.add(new Course("Data Structures and Algorithms", "c04", "In-depth course on data structures and algorithms"));
